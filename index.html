@@ -4,42 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viagem a Tóquio - Login</title>
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
+            background-image: url('https://source.unsplash.com/1600x900/?japan,tokyo'); /* Imagem de fundo */
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f7f7f7;
+            margin: 0;
         }
         .login-container {
-            width: 300px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        #error-message {
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="login-container">
-        <h2 class="text-center">Proteção por Password</h2>
+        <h2>Proteção por Password</h2>
         <form id="loginForm">
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" class="form-control" required>
+                <input type="password" id="password" class="form-control" placeholder="Insere a password" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Entrar</button>
-            <p id="error-message" class="text-danger text-center mt-2" style="display:none;">Password incorreta</p>
+            <p id="error-message" class="text-danger text-center mt-2">Password incorreta. Tenta novamente.</p>
         </form>
     </div>
 
     <script>
         // Definir a password correta
-        const correctPassword = 'Tokyo2025';
+        const correctPassword = 'minhaPassword123';  // Muda esta linha para a password desejada
 
+        // Adicionar o evento de submit no formulário
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -50,9 +71,9 @@
             if (enteredPassword === correctPassword) {
                 // Se estiver correta, guardar um token no LocalStorage e redirecionar
                 localStorage.setItem('authenticated', 'true');
-                window.location.href = 'conteudo.html';  // Redirecionar para a página de conteúdo
+                window.location.href = '/nome-do-repositorio/conteudo.html';  // Muda 'nome-do-repositorio' para o nome do teu repositório
             } else {
-                // Se estiver errada, mostrar uma mensagem de erro
+                // Se estiver errada, mostrar a mensagem de erro
                 document.getElementById('error-message').style.display = 'block';
             }
         });
