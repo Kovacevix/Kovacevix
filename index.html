@@ -58,7 +58,7 @@
 
     <script>
         // Definir a password correta
-        const correctPassword = 'minhaPassword123';  // Muda esta linha para a password desejada
+        const correctPassword = '1234';  // Muda esta linha para a password desejada
 
         // Adicionar o evento de submit no formulário
         document.getElementById('loginForm').addEventListener('submit', function (e) {
@@ -71,7 +71,9 @@
             if (enteredPassword === correctPassword) {
                 // Se estiver correta, guardar um token no LocalStorage e redirecionar
                 localStorage.setItem('authenticated', 'true');
-                window.location.href = '/nome-do-repositorio/conteudo.html';  // Muda 'nome-do-repositorio' para o nome do teu repositório
+
+                // Redirecionamento com o caminho absoluto
+                window.location.href = '/nome-do-repositorio/conteudo.html';  // Muda 'nome-do-repositorio' para o nome do teu repositório GitHub
             } else {
                 // Se estiver errada, mostrar a mensagem de erro
                 document.getElementById('error-message').style.display = 'block';
