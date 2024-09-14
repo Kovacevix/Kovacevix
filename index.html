@@ -4,9 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viagem a Tóquio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Bem-vindo ao Planeamento da Viagem a Tóquio</h1>
-    <p>Em breve irás poder planear os teus dias aqui!</p>
+    <div class="container mt-5">
+        <h1 class="text-center">Planeamento da Viagem a Tóquio</h1>
+
+        <!-- Formulário para adicionar atividades -->
+        <form id="planForm">
+            <div class="form-group">
+                <label for="day">Dia:</label>
+                <input type="date" id="day" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="activity">Atividade:</label>
+                <input type="text" id="activity" class="form-control" placeholder="Ex. Visitar Templo Senso-ji" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Hora:</label>
+                <input type="time" id="time" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar Planeamento</button>
+        </form>
+
+        <!-- Lista de planeamentos -->
+        <h2 class="mt-5">Planeamentos para os dias</h2>
+        <ul id="plansList" class="list-group"></ul>
+    </div>
+
+    <!-- JavaScript para gerir o planeamento -->
+    <script>
+        // Quando o formulário é submetido
+        document.getElementById('planForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            
+            // Obter valores do formulário
+            let day = document.getElementById('day').value;
+            let activity = document.getElementById('activity').value;
+            let time = document.getElementById('time').value;
+
+            // Carregar planeamentos existentes do LocalStorage ou criar um array vazio
+            let plans = JSON.parse(localStorage.getItem('plans')) || [];
+            
+            // Adicionar novo planeamento ao array
+            plans.push({ day, activity, time });
+            
+            // Guardar o array atualizado no LocalStorage
+            localStorage.setItem('plans', JSON.stringify(plans));
+            
+            // Atualizar a exibição dos planeamentos
+            displayPlans();
+            
+            // Limpar o formulário
+            this.reset();
+        });
+
+        // Função para exibir os planeamentos
+        function displayPlans() {
+            let plansList = document.getElementById('plansList');
+            plansList.innerHTML = ''; // Limpar lista
+
+            // Obter planeamentos do LocalStorage
+            let plans = JSON.parse(localStorage.getItem('plans')) || [];
+            
+            // Adicionar cada planeamento à lista
+            plans.forEach(plan => {
+                let li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `<strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}`;
+                plansList.appendChild(li);
+            });
+        }
+
+        // Exibir planeamentos ao carregar a página
+        document.addEventListener('DOMContentLoaded', displayPlans);
+    </script>
 </body>
 </html>
