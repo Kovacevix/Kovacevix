@@ -4,7 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viagem a Tóquio</title>
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #343a40;
+            border-bottom: 2px solid #007bff;
+            display: inline-block;
+        }
+        .btn-primary, .btn-success {
+            width: 100%;
+        }
+        .list-group-item {
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-warning, .btn-danger {
+            margin-left: 10px;
+        }
+        .img-fluid {
+            border-radius: 8px;
+            max-width: 100%;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+    </style>
     <script>
         // Verificar se o utilizador está autenticado
         if (localStorage.getItem('authenticated') !== 'true') {
@@ -13,11 +57,12 @@
     </script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Planeamento da Viagem a Tóquio</h1>
+    <div class="container">
+        <h1>Planeamento da Viagem a Tóquio</h1>
 
         <!-- Formulário para adicionar atividades -->
-        <form id="planForm">
+        <form id="planForm" class="mb-5">
+            <h2 class="section-title">Adicionar Planeamento</h2>
             <div class="form-group">
                 <label for="day">Dia:</label>
                 <input type="date" id="day" class="form-control" required>
@@ -34,12 +79,12 @@
         </form>
 
         <!-- Lista de planeamentos -->
-        <h2 class="mt-5">Planeamentos para os dias</h2>
+        <h2 class="section-title">Planeamentos para os Dias</h2>
         <ul id="plansList" class="list-group"></ul>
 
         <!-- Secção de Diário -->
-        <h2 class="mt-5">Diário da Viagem</h2>
-        <form id="journalForm">
+        <h2 class="section-title">Diário da Viagem</h2>
+        <form id="journalForm" class="mb-5">
             <div class="form-group">
                 <label for="journalDay">Dia:</label>
                 <input type="date" id="journalDay" class="form-control" required>
@@ -55,7 +100,7 @@
             <button type="submit" class="btn btn-success">Adicionar ao Diário</button>
         </form>
 
-        <h2 class="mt-5">Entradas no Diário</h2>
+        <h2 class="section-title">Entradas no Diário</h2>
         <ul id="journalList" class="list-group"></ul>
     </div>
 
@@ -149,7 +194,7 @@
                 li.className = 'list-group-item';
                 li.innerHTML = `<strong>${entry.journalDay}</strong>: ${entry.journalNote}`;
                 if (entry.photoUrl) {
-                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" class="img-fluid mt-2" style="max-width: 400px;">`;
+                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" class="img-fluid mt-2">`;
                 }
                 li.innerHTML += `<button class="btn btn-warning btn-sm float-right" onclick="editJournal(${index})">Editar</button>
                     <button class="btn btn-danger btn-sm float-right mr-2" onclick="deleteJournal(${index})">Eliminar</button>`;
