@@ -3,77 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viagem a Tóquio - Login</title>
+    <title>Entrada - Viagem a Tóquio</title>
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
+            background-image: url('https://images.pexels.com/photos/2098446/pexels-photo-2098446.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f7f7f7;
+            color: white;
         }
         .login-container {
-            width: 300px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .slideshow-container {
+            max-width: 600px;
+            position: relative;
+            margin: auto;
+        }
+        .slide {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .btn {
+            margin-top: 20px;
+            background-color: #3498db;
+            border: none;
+        }
+        .btn:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
 
     <div class="login-container">
-        <h2 class="text-center">Proteção por Password</h2>
+        <h1>Bem-vindo à Viagem a Tóquio</h1>
+        <div class="slideshow-container">
+            <img class="slide active" src="https://images.pexels.com/photos/2439710/pexels-photo-2439710.jpeg" style="width:100%">
+            <img class="slide" src="https://images.pexels.com/photos/2369124/pexels-photo-2369124.jpeg" style="width:100%">
+            <img class="slide" src="https://images.pexels.com/photos/1618003/pexels-photo-1618003.jpeg" style="width:100%">
+        </div>
         <form id="loginForm">
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Entrar</button>
-            <p id="error-message" class="text-danger text-center mt-2" style="display:none;">Password incorreta</p>
+            <p id="error-message" class="text-danger mt-2" style="display:none;">Password incorreta</p>
         </form>
     </div>
 
     <script>
-        // Definir a password correta
-        const correctPassword = '12345';
-        let loginAttempts = 0;
-
-        function clearPassword() {
-            document.getElementById('password').value = '';
-        }
-
-        function showError(message) {
-            const errorElement = document.getElementById('error-message');
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
+        const correctPassword = '123';
 
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            // Obter a password inserida pelo utilizador
             let enteredPassword = document.getElementById('password').value;
-
-            // Verificar se a password está correta
             if (enteredPassword === correctPassword) {
-                // Se estiver correta, guardar um token no SessionStorage e redirecionar
-                sessionStorage.setItem('authenticated', 'true');
-                window.location.href = 'https://kovacevix.github.io/Kovacevix/conteudo.html';
+                localStorage.setItem('authenticated', 'true');
+                window.location.href = './conteudo.html';
             } else {
-                // Se estiver errada, mostrar uma mensagem de erro
-                loginAttempts++;
-                if (loginAttempts >= 3) {
-                    showError('Número máximo de tentativas excedido. Tente novamente mais tarde.');
-                    document.querySelector('button[type="submit"]').disabled = true;
-                } else {
-                    showError(`Password incorreta. Tentativas restantes: ${3 - loginAttempts}`);
-                }
-                clearPassword();
+                document.getElementById('error-message').style.display = 'block';
             }
         });
+
+        // Slideshow Script
+        let slideIndex = 0;
+        const slides = document.getElementsByClassName('slide');
+        setInterval(function() {
+            slides[slideIndex].classList.remove('active');
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add('active');
+        }, 3000);
     </script>
+
 </body>
 </html>
