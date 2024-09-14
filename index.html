@@ -31,15 +31,36 @@
         <!-- Lista de planeamentos -->
         <h2 class="mt-5">Planeamentos para os dias</h2>
         <ul id="plansList" class="list-group"></ul>
+
+        <!-- Secção de Diário -->
+        <h2 class="mt-5">Diário da Viagem</h2>
+        <form id="journalForm">
+            <div class="form-group">
+                <label for="journalDay">Dia:</label>
+                <input type="date" id="journalDay" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="journalNote">Nota do Dia:</label>
+                <textarea id="journalNote" class="form-control" rows="3" placeholder="Escreve as tuas experiências" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="photoUrl">Link da Foto (opcional):</label>
+                <input type="url" id="photoUrl" class="form-control" placeholder="Adiciona o link de uma foto">
+            </div>
+            <button type="submit" class="btn btn-success">Adicionar ao Diário</button>
+        </form>
+
+        <h2 class="mt-5">Entradas no Diário</h2>
+        <ul id="journalList" class="list-group"></ul>
     </div>
 
-    <!-- JavaScript para gerir o planeamento -->
+    <!-- JavaScript para gerir o planeamento e o diário -->
     <script>
-        // Quando o formulário é submetido
+        // Quando o formulário de planeamento é submetido
         document.getElementById('planForm').addEventListener('submit', function (e) {
             e.preventDefault();
             
-            // Obter valores do formulário
+            // Obter valores do formulário de planeamento
             let day = document.getElementById('day').value;
             let activity = document.getElementById('activity').value;
             let time = document.getElementById('time').value;
@@ -56,7 +77,7 @@
             // Atualizar a exibição dos planeamentos
             displayPlans();
             
-            // Limpar o formulário
+            // Limpar o formulário de planeamento
             this.reset();
         });
 
@@ -79,6 +100,54 @@
 
         // Exibir planeamentos ao carregar a página
         document.addEventListener('DOMContentLoaded', displayPlans);
+
+        // Quando o formulário de diário é submetido
+        document.getElementById('journalForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Obter valores do formulário de diário
+            let journalDay = document.getElementById('journalDay').value;
+            let journalNote = document.getElementById('journalNote').value;
+            let photoUrl = document.getElementById('photoUrl').value;
+
+            // Carregar entradas do diário existentes ou criar um array vazio
+            let journal = JSON.parse(localStorage.getItem('journal')) || [];
+
+            // Adicionar nova entrada ao diário
+            journal.push({ journalDay, journalNote, photoUrl });
+
+            // Guardar o diário atualizado no LocalStorage
+            localStorage.setItem('journal', JSON.stringify(journal));
+
+            // Atualizar a exibição do diário
+            displayJournal();
+
+            // Limpar o formulário de diário
+            this.reset();
+        });
+
+        // Função para exibir o diário
+        function displayJournal() {
+            let journalList = document.getElementById('journalList');
+            journalList.innerHTML = ''; // Limpar lista
+
+            // Obter entradas do diário do LocalStorage
+            let journal = JSON.parse(localStorage.getItem('journal')) || [];
+
+            // Adicionar cada entrada do diário à lista
+            journal.forEach(entry => {
+                let li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `<strong>${entry.journalDay}</strong>: ${entry.journalNote}`;
+                if (entry.photoUrl) {
+                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" style="max-width: 200px; margin-top: 10px;">`;
+                }
+                journalList.appendChild(li);
+            });
+        }
+
+        // Exibir entradas do diário ao carregar a página
+        document.addEventListener('DOMContentLoaded', displayJournal);
     </script>
 </body>
 </html>
