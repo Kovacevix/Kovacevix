@@ -59,63 +59,6 @@
         <ul id="journalList" class="list-group"></ul>
     </div>
 
-    <script>
-       <!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viagem a Tóquio</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center">Planeamento da Viagem a Tóquio</h1>
-
-        <!-- Formulário para adicionar atividades -->
-        <form id="planForm">
-            <div class="form-group">
-                <label for="day">Dia:</label>
-                <input type="date" id="day" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="activity">Atividade:</label>
-                <input type="text" id="activity" class="form-control" placeholder="Ex. Visitar Templo Senso-ji" required>
-            </div>
-            <div class="form-group">
-                <label for="time">Hora:</label>
-                <input type="time" id="time" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Adicionar Planeamento</button>
-        </form>
-
-        <!-- Lista de planeamentos -->
-        <h2 class="mt-5">Planeamentos para os dias</h2>
-        <ul id="plansList" class="list-group"></ul>
-
-        <!-- Secção de Diário -->
-        <h2 class="mt-5">Diário da Viagem</h2>
-        <form id="journalForm">
-            <div class="form-group">
-                <label for="journalDay">Dia:</label>
-                <input type="date" id="journalDay" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="journalNote">Nota do Dia:</label>
-                <textarea id="journalNote" class="form-control" rows="3" placeholder="Escreve as tuas experiências" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="photoUrl">Link da Foto (opcional):</label>
-                <input type="url" id="photoUrl" class="form-control" placeholder="Adiciona o link de uma foto">
-            </div>
-            <button type="submit" class="btn btn-success">Adicionar ao Diário</button>
-        </form>
-
-        <h2 class="mt-5">Entradas no Diário</h2>
-        <ul id="journalList" class="list-group"></ul>
-    </div>
-
     <!-- JavaScript para gerir o planeamento e o diário -->
     <script>
         let editPlanIndex = null;
@@ -230,9 +173,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', displayJournal);
-    </script>
-</body>
-</html>
     </script>
 </body>
 </html>
