@@ -3,171 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viagem a Tóquio</title>
-    <!-- Bootstrap CSS -->
+    <title>Viagem a Tóquio - Login</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Planeamento da Viagem a Tóquio</h1>
 
-        <!-- Formulário para adicionar atividades -->
-        <form id="planForm">
+    <div class="login-container">
+        <h2 class="text-center">Proteção por Password</h2>
+        <form id="loginForm">
             <div class="form-group">
-                <label for="day">Dia:</label>
-                <input type="date" id="day" class="form-control" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" class="form-control" required>
             </div>
-            <div class="form-group">
-                <label for="activity">Atividade:</label>
-                <input type="text" id="activity" class="form-control" placeholder="Ex. Visitar Templo Senso-ji" required>
-            </div>
-            <div class="form-group">
-                <label for="time">Hora:</label>
-                <input type="time" id="time" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Adicionar Planeamento</button>
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <p id="error-message" class="text-danger text-center mt-2" style="display:none;">Password incorreta</p>
         </form>
-
-        <!-- Lista de planeamentos -->
-        <h2 class="mt-5">Planeamentos para os dias</h2>
-        <ul id="plansList" class="list-group"></ul>
-
-        <!-- Secção de Diário -->
-        <h2 class="mt-5">Diário da Viagem</h2>
-        <form id="journalForm">
-            <div class="form-group">
-                <label for="journalDay">Dia:</label>
-                <input type="date" id="journalDay" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="journalNote">Nota do Dia:</label>
-                <textarea id="journalNote" class="form-control" rows="3" placeholder="Escreve as tuas experiências" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="photoUrl">Link da Foto (opcional):</label>
-                <input type="url" id="photoUrl" class="form-control" placeholder="Adiciona o link de uma foto">
-            </div>
-            <button type="submit" class="btn btn-success">Adicionar ao Diário</button>
-        </form>
-
-        <h2 class="mt-5">Entradas no Diário</h2>
-        <ul id="journalList" class="list-group"></ul>
     </div>
 
-    <!-- JavaScript para gerir o planeamento e o diário -->
     <script>
-        let editPlanIndex = null;
-        let editJournalIndex = null;
+        // Definir a password correta
+        const correctPassword = 'Tokyo2025';
 
-        // Quando o formulário de planeamento é submetido
-        document.getElementById('planForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            let day = document.getElementById('day').value;
-            let activity = document.getElementById('activity').value;
-            let time = document.getElementById('time').value;
-
-            let plans = JSON.parse(localStorage.getItem('plans')) || [];
-            
-            if (editPlanIndex === null) {
-                plans.push({ day, activity, time });
-            } else {
-                plans[editPlanIndex] = { day, activity, time };
-                editPlanIndex = null;
-            }
-            
-            localStorage.setItem('plans', JSON.stringify(plans));
-            displayPlans();
-            this.reset();
-        });
-
-        function displayPlans() {
-            let plansList = document.getElementById('plansList');
-            plansList.innerHTML = '';
-
-            let plans = JSON.parse(localStorage.getItem('plans')) || [];
-            plans.forEach((plan, index) => {
-                let li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `<strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}
-                    <button class="btn btn-warning btn-sm float-right" onclick="editPlan(${index})">Editar</button>
-                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deletePlan(${index})">Eliminar</button>`;
-                plansList.appendChild(li);
-            });
-        }
-
-        function editPlan(index) {
-            let plans = JSON.parse(localStorage.getItem('plans')) || [];
-            document.getElementById('day').value = plans[index].day;
-            document.getElementById('activity').value = plans[index].activity;
-            document.getElementById('time').value = plans[index].time;
-            editPlanIndex = index;
-        }
-
-        function deletePlan(index) {
-            let plans = JSON.parse(localStorage.getItem('plans')) || [];
-            plans.splice(index, 1);
-            localStorage.setItem('plans', JSON.stringify(plans));
-            displayPlans();
-        }
-
-        document.addEventListener('DOMContentLoaded', displayPlans);
-
-        document.getElementById('journalForm').addEventListener('submit', function (e) {
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            let journalDay = document.getElementById('journalDay').value;
-            let journalNote = document.getElementById('journalNote').value;
-            let photoUrl = document.getElementById('photoUrl').value;
+            // Obter a password inserida pelo utilizador
+            let enteredPassword = document.getElementById('password').value;
 
-            let journal = JSON.parse(localStorage.getItem('journal')) || [];
-
-            if (editJournalIndex === null) {
-                journal.push({ journalDay, journalNote, photoUrl });
+            // Verificar se a password está correta
+            if (enteredPassword === correctPassword) {
+                // Se estiver correta, guardar um token no LocalStorage e redirecionar
+                localStorage.setItem('authenticated', 'true');
+                window.location.href = 'conteudo.html';  // Redirecionar para a página de conteúdo
             } else {
-                journal[editJournalIndex] = { journalDay, journalNote, photoUrl };
-                editJournalIndex = null;
+                // Se estiver errada, mostrar uma mensagem de erro
+                document.getElementById('error-message').style.display = 'block';
             }
-
-            localStorage.setItem('journal', JSON.stringify(journal));
-            displayJournal();
-            this.reset();
         });
-
-        function displayJournal() {
-            let journalList = document.getElementById('journalList');
-            journalList.innerHTML = '';
-
-            let journal = JSON.parse(localStorage.getItem('journal')) || [];
-            journal.forEach((entry, index) => {
-                let li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `<strong>${entry.journalDay}</strong>: ${entry.journalNote}`;
-                if (entry.photoUrl) {
-                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" class="img-fluid mt-2" style="max-width: 400px;">`;
-                }
-                li.innerHTML += `<button class="btn btn-warning btn-sm float-right" onclick="editJournal(${index})">Editar</button>
-                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deleteJournal(${index})">Eliminar</button>`;
-                journalList.appendChild(li);
-            });
-        }
-
-        function editJournal(index) {
-            let journal = JSON.parse(localStorage.getItem('journal')) || [];
-            document.getElementById('journalDay').value = journal[index].journalDay;
-            document.getElementById('journalNote').value = journal[index].journalNote;
-            document.getElementById('photoUrl').value = journal[index].photoUrl;
-            editJournalIndex = index;
-        }
-
-        function deleteJournal(index) {
-            let journal = JSON.parse(localStorage.getItem('journal')) || [];
-            journal.splice(index, 1);
-            localStorage.setItem('journal', JSON.stringify(journal));
-            displayJournal();
-        }
-
-        document.addEventListener('DOMContentLoaded', displayJournal);
     </script>
 </body>
 </html>
