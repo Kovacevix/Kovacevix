@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -50,10 +51,13 @@
         }
     </style>
     <script>
-        // Verificar se o utilizador está autenticado
-        if (localStorage.getItem('authenticated') !== 'true') {
-            window.location.href = 'index.html';  // Redirecionar para o login se não estiver autenticado
+        // Verificar se o utilizador está autenticado (melhoria de segurança)
+        function checkAuth() {
+            if (sessionStorage.getItem('authenticated') !== 'true') {
+                window.location.href = 'index.html';
+            }
         }
+        window.onload = checkAuth;
     </script>
 </head>
 <body>
@@ -106,16 +110,28 @@
 
     <!-- JavaScript para gerir o planeamento e o diário -->
     <script>
+        // Variáveis globais
         let editPlanIndex = null;
         let editJournalIndex = null;
 
-        // Quando o formulário de planeamento é submetido
-        document.getElementById('planForm').addEventListener('submit', function (e) {
+        // Funções de utilidade
+        function sortByDate(array, dateField) {
+            return array.sort((a, b) => new Date(a[dateField]) - new Date(b[dateField]));
+        }
+
+        function confirmDelete(message) {
+            return confirm(message);
+        }
+
+        // Funções para planeamento
+        function handlePlanSubmit(e) {
             e.preventDefault();
             
             let day = document.getElementById('day').value;
             let activity = document.getElementById('activity').value;
             let time = document.getElementById('time').value;
+
+            if (!validatePlanInput(day, activity, time)) return;
 
             let plans = JSON.parse(localStorage.getItem('plans')) || [];
             
@@ -126,10 +142,23 @@
                 editPlanIndex = null;
             }
             
+            plans = sortByDate(plans, 'day');
             localStorage.setItem('plans', JSON.stringify(plans));
             displayPlans();
             this.reset();
-        });
+        }
+
+        function validatePlanInput(day, activity, time) {
+            if (!day || !activity || !time) {
+                alert('Por favor, preencha todos os campos.');
+                return false;
+            }
+            if (new Date(day) < new Date()) {
+                alert('A data não pode ser no passado.');
+                return false;
+            }
+            return true;
+        }
 
         function displayPlans() {
             let plansList = document.getElementById('plansList');
@@ -139,9 +168,11 @@
             plans.forEach((plan, index) => {
                 let li = document.createElement('li');
                 li.className = 'list-group-item';
-                li.innerHTML = `<strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}
-                    <button class="btn btn-warning btn-sm float-right" onclick="editPlan(${index})">Editar</button>
-                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deletePlan(${index})">Eliminar</button>`;
+                li.innerHTML = `
+                    <strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}
+                    <button class="btn btn-warning btn-sm float-right" onclick="editPlan(${index})" aria-label="Editar plano">Editar</button>
+                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deletePlan(${index})" aria-label="Eliminar plano">Eliminar</button>
+                `;
                 plansList.appendChild(li);
             });
         }
@@ -155,20 +186,23 @@
         }
 
         function deletePlan(index) {
+            if (!confirmDelete('Tem certeza que deseja eliminar este plano?')) return;
+
             let plans = JSON.parse(localStorage.getItem('plans')) || [];
             plans.splice(index, 1);
             localStorage.setItem('plans', JSON.stringify(plans));
             displayPlans();
         }
 
-        document.addEventListener('DOMContentLoaded', displayPlans);
-
-        document.getElementById('journalForm').addEventListener('submit', function (e) {
+        // Funções para o diário
+        function handleJournalSubmit(e) {
             e.preventDefault();
 
             let journalDay = document.getElementById('journalDay').value;
             let journalNote = document.getElementById('journalNote').value;
             let photoUrl = document.getElementById('photoUrl').value;
+
+            if (!validateJournalInput(journalDay, journalNote)) return;
 
             let journal = JSON.parse(localStorage.getItem('journal')) || [];
 
@@ -179,10 +213,23 @@
                 editJournalIndex = null;
             }
 
+            journal = sortByDate(journal, 'journalDay');
             localStorage.setItem('journal', JSON.stringify(journal));
             displayJournal();
             this.reset();
-        });
+        }
+
+        function validateJournalInput(day, note) {
+            if (!day || !note) {
+                alert('Por favor, preencha o dia e a nota.');
+                return false;
+            }
+            if (new Date(day) > new Date()) {
+                alert('A data não pode ser no futuro.');
+                return false;
+            }
+            return true;
+        }
 
         function displayJournal() {
             let journalList = document.getElementById('journalList');
@@ -192,12 +239,12 @@
             journal.forEach((entry, index) => {
                 let li = document.createElement('li');
                 li.className = 'list-group-item';
-                li.innerHTML = `<strong>${entry.journalDay}</strong>: ${entry.journalNote}`;
-                if (entry.photoUrl) {
-                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" class="img-fluid mt-2">`;
-                }
-                li.innerHTML += `<button class="btn btn-warning btn-sm float-right" onclick="editJournal(${index})">Editar</button>
-                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deleteJournal(${index})">Eliminar</button>`;
+                li.innerHTML = `
+                    <strong>${entry.journalDay}</strong>: ${entry.journalNote}
+                    ${entry.photoUrl ? `<br><img src="${entry.photoUrl}" alt="Foto do Dia" class="img-fluid mt-2">` : ''}
+                    <button class="btn btn-warning btn-sm float-right" onclick="editJournal(${index})" aria-label="Editar entrada do diário">Editar</button>
+                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deleteJournal(${index})" aria-label="Eliminar entrada do diário">Eliminar</button>
+                `;
                 journalList.appendChild(li);
             });
         }
@@ -211,13 +258,21 @@
         }
 
         function deleteJournal(index) {
+            if (!confirmDelete('Tem certeza que deseja eliminar esta entrada do diário?')) return;
+
             let journal = JSON.parse(localStorage.getItem('journal')) || [];
             journal.splice(index, 1);
             localStorage.setItem('journal', JSON.stringify(journal));
             displayJournal();
         }
 
-        document.addEventListener('DOMContentLoaded', displayJournal);
+        // Event Listeners
+        document.getElementById('planForm').addEventListener('submit', handlePlanSubmit);
+        document.getElementById('journalForm').addEventListener('submit', handleJournalSubmit);
+        document.addEventListener('DOMContentLoaded', () => {
+            displayPlans();
+            displayJournal();
+        });
     </script>
 </body>
 </html>
