@@ -50,7 +50,7 @@
             if (enteredPassword === correctPassword) {
                 // Se estiver correta, guardar um token no LocalStorage e redirecionar
                 localStorage.setItem('authenticated', 'true');
-                window.location.href = './Kovacevix/conteudo.html';  // Caminho completo para a página de conteúdo
+                window.location.href = './conteudo.html';  // Se `conteudo.html` estiver na mesma pasta que `index.html`';  // Caminho completo para a página de conteúdo
             } else {
                 // Se estiver errada, mostrar uma mensagem de erro
                 document.getElementById('error-message').style.display = 'block';
