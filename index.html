@@ -56,97 +56,117 @@
 
     <!-- JavaScript para gerir o planeamento e o diário -->
     <script>
+        let editPlanIndex = null;
+        let editJournalIndex = null;
+
         // Quando o formulário de planeamento é submetido
         document.getElementById('planForm').addEventListener('submit', function (e) {
             e.preventDefault();
             
-            // Obter valores do formulário de planeamento
             let day = document.getElementById('day').value;
             let activity = document.getElementById('activity').value;
             let time = document.getElementById('time').value;
 
-            // Carregar planeamentos existentes do LocalStorage ou criar um array vazio
             let plans = JSON.parse(localStorage.getItem('plans')) || [];
             
-            // Adicionar novo planeamento ao array
-            plans.push({ day, activity, time });
+            if (editPlanIndex === null) {
+                plans.push({ day, activity, time });
+            } else {
+                plans[editPlanIndex] = { day, activity, time };
+                editPlanIndex = null;
+            }
             
-            // Guardar o array atualizado no LocalStorage
             localStorage.setItem('plans', JSON.stringify(plans));
-            
-            // Atualizar a exibição dos planeamentos
             displayPlans();
-            
-            // Limpar o formulário de planeamento
             this.reset();
         });
 
-        // Função para exibir os planeamentos
         function displayPlans() {
             let plansList = document.getElementById('plansList');
-            plansList.innerHTML = ''; // Limpar lista
+            plansList.innerHTML = '';
 
-            // Obter planeamentos do LocalStorage
             let plans = JSON.parse(localStorage.getItem('plans')) || [];
-            
-            // Adicionar cada planeamento à lista
-            plans.forEach(plan => {
+            plans.forEach((plan, index) => {
                 let li = document.createElement('li');
                 li.className = 'list-group-item';
-                li.innerHTML = `<strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}`;
+                li.innerHTML = `<strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}
+                    <button class="btn btn-warning btn-sm float-right" onclick="editPlan(${index})">Editar</button>
+                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deletePlan(${index})">Eliminar</button>`;
                 plansList.appendChild(li);
             });
         }
 
-        // Exibir planeamentos ao carregar a página
+        function editPlan(index) {
+            let plans = JSON.parse(localStorage.getItem('plans')) || [];
+            document.getElementById('day').value = plans[index].day;
+            document.getElementById('activity').value = plans[index].activity;
+            document.getElementById('time').value = plans[index].time;
+            editPlanIndex = index;
+        }
+
+        function deletePlan(index) {
+            let plans = JSON.parse(localStorage.getItem('plans')) || [];
+            plans.splice(index, 1);
+            localStorage.setItem('plans', JSON.stringify(plans));
+            displayPlans();
+        }
+
         document.addEventListener('DOMContentLoaded', displayPlans);
 
-        // Quando o formulário de diário é submetido
         document.getElementById('journalForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Obter valores do formulário de diário
             let journalDay = document.getElementById('journalDay').value;
             let journalNote = document.getElementById('journalNote').value;
             let photoUrl = document.getElementById('photoUrl').value;
 
-            // Carregar entradas do diário existentes ou criar um array vazio
             let journal = JSON.parse(localStorage.getItem('journal')) || [];
 
-            // Adicionar nova entrada ao diário
-            journal.push({ journalDay, journalNote, photoUrl });
+            if (editJournalIndex === null) {
+                journal.push({ journalDay, journalNote, photoUrl });
+            } else {
+                journal[editJournalIndex] = { journalDay, journalNote, photoUrl };
+                editJournalIndex = null;
+            }
 
-            // Guardar o diário atualizado no LocalStorage
             localStorage.setItem('journal', JSON.stringify(journal));
-
-            // Atualizar a exibição do diário
             displayJournal();
-
-            // Limpar o formulário de diário
             this.reset();
         });
 
-        // Função para exibir o diário
         function displayJournal() {
             let journalList = document.getElementById('journalList');
-            journalList.innerHTML = ''; // Limpar lista
+            journalList.innerHTML = '';
 
-            // Obter entradas do diário do LocalStorage
             let journal = JSON.parse(localStorage.getItem('journal')) || [];
-
-            // Adicionar cada entrada do diário à lista
-            journal.forEach(entry => {
+            journal.forEach((entry, index) => {
                 let li = document.createElement('li');
                 li.className = 'list-group-item';
                 li.innerHTML = `<strong>${entry.journalDay}</strong>: ${entry.journalNote}`;
                 if (entry.photoUrl) {
-                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" style="max-width: 200px; margin-top: 10px;">`;
+                    li.innerHTML += `<br><img src="${entry.photoUrl}" alt="Foto do Dia" class="img-fluid mt-2" style="max-width: 400px;">`;
                 }
+                li.innerHTML += `<button class="btn btn-warning btn-sm float-right" onclick="editJournal(${index})">Editar</button>
+                    <button class="btn btn-danger btn-sm float-right mr-2" onclick="deleteJournal(${index})">Eliminar</button>`;
                 journalList.appendChild(li);
             });
         }
 
-        // Exibir entradas do diário ao carregar a página
+        function editJournal(index) {
+            let journal = JSON.parse(localStorage.getItem('journal')) || [];
+            document.getElementById('journalDay').value = journal[index].journalDay;
+            document.getElementById('journalNote').value = journal[index].journalNote;
+            document.getElementById('photoUrl').value = journal[index].photoUrl;
+            editJournalIndex = index;
+        }
+
+        function deleteJournal(index) {
+            let journal = JSON.parse(localStorage.getItem('journal')) || [];
+            journal.splice(index, 1);
+            localStorage.setItem('journal', JSON.stringify(journal));
+            displayJournal();
+        }
+
         document.addEventListener('DOMContentLoaded', displayJournal);
     </script>
 </body>
