@@ -39,6 +39,17 @@
     <script>
         // Definir a password correta
         const correctPassword = '12345';
+        let loginAttempts = 0;
+
+        function clearPassword() {
+            document.getElementById('password').value = '';
+        }
+
+        function showError(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
 
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -48,12 +59,19 @@
 
             // Verificar se a password está correta
             if (enteredPassword === correctPassword) {
-                // Se estiver correta, guardar um token no LocalStorage e redirecionar
-                localStorage.setItem('authenticated', 'true');
-                window.location.href = './conteudo.html';  // Se `conteudo.html` estiver na mesma pasta que `index.html`';  // Caminho completo para a página de conteúdo
+                // Se estiver correta, guardar um token no SessionStorage e redirecionar
+                sessionStorage.setItem('authenticated', 'true');
+                window.location.href = './conteudo.html';
             } else {
                 // Se estiver errada, mostrar uma mensagem de erro
-                document.getElementById('error-message').style.display = 'block';
+                loginAttempts++;
+                if (loginAttempts >= 3) {
+                    showError('Número máximo de tentativas excedido. Tente novamente mais tarde.');
+                    document.querySelector('button[type="submit"]').disabled = true;
+                } else {
+                    showError(`Password incorreta. Tentativas restantes: ${3 - loginAttempts}`);
+                }
+                clearPassword();
             }
         });
     </script>
