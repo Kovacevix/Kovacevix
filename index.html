@@ -100,7 +100,7 @@
             let enteredPassword = document.getElementById('password').value;
             if (enteredPassword === correctPassword) {
                 localStorage.setItem('authenticated', 'true');
-                window.location.href = './conteudo.html';
+                window.location.href = './intro.html';
             } else {
                 document.getElementById('error-message').style.display = 'block';
             }
