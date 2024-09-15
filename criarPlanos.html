@@ -21,7 +21,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
-            margin-top: 50px;
+            margin-top: 80px; /* Ajuste para dar espaço ao header fixo */
             margin-bottom: 50px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
@@ -93,9 +93,54 @@
         .search-container {
             margin-bottom: 20px;
         }
+        .alert {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: #ff6b6b !important;
+        }
+
+        .nav-link {
+            color: #4ecdc4 !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #45b7aa !important;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Viagem a Tóquio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="criarplanos.html">Criar Planos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="verplanos.html">Ver Planos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Criar Planos para Tóquio</h1>
         
@@ -122,6 +167,10 @@
             <button type="submit" class="btn btn-primary btn-block">Adicionar Plano</button>
         </form>
 
+        <div class="alert alert-success" role="alert" id="successAlert">
+            Plano criado com sucesso!
+        </div>
+
         <div class="search-container mt-4">
             <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar planos...">
         </div>
@@ -144,6 +193,17 @@
             localStorage.setItem('plans', JSON.stringify(plans));
             displayPlans();
             e.target.reset();
+
+            // Mostrar alerta de sucesso
+            showSuccessAlert();
+        }
+
+        function showSuccessAlert() {
+            let alert = document.getElementById('successAlert');
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000); // O alerta desaparece após 3 segundos
         }
 
         function displayPlans(filteredPlans = plans) {
@@ -203,5 +263,9 @@
 
         displayPlans();
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
