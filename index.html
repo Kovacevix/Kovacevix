@@ -123,7 +123,7 @@
             let enteredPassword = document.getElementById('password').value;
             if (enteredPassword === correctPassword) {
                 sessionStorage.setItem('authenticated', 'true');
-                window.location.href = './conteudo.html';
+                window.location.href = './intro.html';
             } else {
                 document.getElementById('error-message').style.display = 'block';
             }
@@ -131,7 +131,7 @@
 
         // Função para obter uma imagem de fundo de Tóquio da API Pexels
         async function setBackgroundImage() {
-            const apiKey = 'QiCwiItzNFqhUSxbwQclnF3pHsbrQX8B15duEe2wgpgo4GItl6lj3rgV'; // Substitua pela sua chave API real
+            const apiKey = QiCwiItzNFqhUSxbwQclnF3pHsbrQX8B15duEe2wgpgo4GItl6lj3rgV
             const fallbackImage = 'https://source.unsplash.com/1600x900/?tokyo,city'; // Imagem de fallback
 
             document.getElementById('loader').style.display = 'block';
