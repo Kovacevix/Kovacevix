@@ -121,12 +121,8 @@
             <p><strong>Densidade Populacional:</strong> A cidade de Tóquio tem uma densidade de 6.168 habitantes por km², enquanto a área metropolitana é altamente urbanizada e densamente povoada.</p>
         </div>
 
-        <!-- Galeria de Imagens -->
-        <div class="gallery">
-            <img src="https://source.unsplash.com/300x300/?tokyo" alt="Tóquio">
-            <img src="https://source.unsplash.com/300x300/?japan" alt="Japão">
-            <img src="https://source.unsplash.com/300x300/?shinjuku" alt="Shinjuku">
-        </div>
+        <!-- Galeria de Imagens Dinâmicas -->
+        <div class="gallery" id="gallery"></div>
     </div>
 
     <!-- Rodapé -->
@@ -142,6 +138,39 @@
             .then(data => {
                 document.getElementById('navbar-placeholder').innerHTML = data;
             });
+
+        // Função para obter imagens da API Pexels
+        async function getTokyoImages() {
+            const apiKey = 'QiCwiItzNFqhUSxbwQclnF3pHsbrQX8B15duEe2wgpgo4GItl6lj3rgV'; // Substitui pela tua chave API
+            const galleryContainer = document.getElementById('gallery');
+
+            try {
+                const response = await fetch('https://api.pexels.com/v1/search?query=tokyo&per_page=3', {
+                    headers: {
+                        Authorization: apiKey
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Falha ao carregar imagens');
+                }
+
+                const data = await response.json();
+
+                data.photos.forEach(photo => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = photo.src.medium;
+                    imgElement.alt = photo.photographer;
+                    galleryContainer.appendChild(imgElement);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar imagens:', error);
+                galleryContainer.innerHTML = '<p>Desculpe, não foi possível carregar as imagens.</p>';
+            }
+        }
+
+        // Carregar as imagens ao carregar a página
+        document.addEventListener('DOMContentLoaded', getTokyoImages);
     </script>
 
     <!-- Bootstrap JS -->
