@@ -5,73 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrada - Viagem a Tóquio</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f7fa;
-            height: 100vh;
+        body, html {
+            height: 100%;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-            background-image: url('https://source.unsplash.com/1600x900/?tokyo,travel');
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://source.unsplash.com/1600x900/?tokyo,city'); /* URL de uma foto de Tóquio */
             background-size: cover;
             background-position: center;
         }
+
+        /* Efeito de vidro desbatido (glassmorphism) */
         .login-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.1); /* Fundo transparente */
+            backdrop-filter: blur(10px); /* Efeito de desfocagem */
+            -webkit-backdrop-filter: blur(10px); /* Suporte para Safari */
             border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
             text-align: center;
-            max-width: 600px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+            color: #fff;
         }
+
         h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 20px;
-            color: #ff6b6b;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            color: #fff;
         }
-        .slideshow-container {
-            display: flex;
-            gap: 10px; /* Espaço entre as imagens */
-            margin-bottom: 20px;
-            overflow: hidden;
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.3); /* Fundo semi-transparente */
+            color: #fff;
+            border: none;
             border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
         }
-        .slideshow-container img {
-            max-width: 100%;
-            height: auto;
-            transition: transform 0.3s ease;
-            flex: 1; /* Ajusta as imagens para ocupar o mesmo espaço */
-        }
-        .slideshow-container img:hover {
-            transform: scale(1.05);
-        }
-        .btn-primary {
+
+        .btn {
             background-color: #4ecdc4;
             border: none;
             padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
             font-size: 1.1rem;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
-        .btn-primary:hover {
+
+        .btn:hover {
             background-color: #45b7aa;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        #error-message {
-            color: #ff6b6b;
-            font-weight: bold;
-        }
-        .form-control {
-            border: 2px solid #4ecdc4;
-            border-radius: 20px;
-            padding: 10px 15px;
-        }
-        .form-control:focus {
-            box-shadow: 0 0 0 0.2rem rgba(78,205,196,.25);
         }
     </style>
 </head>
@@ -79,65 +67,25 @@
 
     <div class="login-container">
         <h1>Bem-vindo à Viagem a Tóquio</h1>
-        <div class="slideshow-container" id="slideshow-container">
-            <!-- Imagens dinâmicas da API serão inseridas aqui -->
-        </div>
         <form id="loginForm">
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Iniciar Aventura</button>
-            <p id="error-message" class="mt-2" style="display:none;">Password incorreta</p>
+            <input type="password" id="password" class="form-control" placeholder="Coloque a password" required>
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
         </form>
     </div>
 
     <script>
-        const correctPassword = 'kovas';
+        const correctPassword = 'minhaPassword123';
 
         document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
             let enteredPassword = document.getElementById('password').value;
             if (enteredPassword === correctPassword) {
                 localStorage.setItem('authenticated', 'true');
-                window.location.href = './intro.html';
+                window.location.href = './conteudo.html';
             } else {
-                document.getElementById('error-message').style.display = 'block';
+                alert('Password incorreta');
             }
         });
-
-        // Função para obter imagens da API Pexels
-        async function getTokyoImages() {
-            const apiKey = 'QiCwiItzNFqhUSxbwQclnF3pHsbrQX8B15duEe2wgpgo4GItl6lj3rgV'; // Tua chave API da Pexels
-            const slideshowContainer = document.getElementById('slideshow-container');
-
-            try {
-                const response = await fetch('https://api.pexels.com/v1/search?query=tokyo&per_page=3', {
-                    headers: {
-                        Authorization: apiKey
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Falha ao carregar imagens');
-                }
-
-                const data = await response.json();
-
-                data.photos.forEach(photo => {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = photo.src.medium;
-                    imgElement.alt = photo.photographer;
-                    slideshowContainer.appendChild(imgElement);
-                });
-            } catch (error) {
-                console.error('Erro ao carregar imagens:', error);
-                slideshowContainer.innerHTML = '<p>Desculpe, não foi possível carregar as imagens.</p>';
-            }
-        }
-
-        // Carregar as imagens quando o DOM estiver pronto
-        document.addEventListener('DOMContentLoaded', getTokyoImages);
     </script>
 
 </body>
