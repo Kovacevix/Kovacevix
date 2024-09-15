@@ -98,8 +98,13 @@
             <!-- O conteúdo será carregado dinamicamente aqui -->
         </div>
 
-        <!-- Nova Seção de Dicas (carregada dinamicamente) -->
+        <!-- Seção de Dicas (carregada dinamicamente) -->
         <div class="info-box" id="dicas">
+            <!-- O conteúdo será carregado dinamicamente aqui -->
+        </div>
+
+        <!-- Seção de Frases (carregada dinamicamente) -->
+        <div class="info-box" id="frases">
             <!-- O conteúdo será carregado dinamicamente aqui -->
         </div>
 
@@ -136,6 +141,14 @@
                 document.getElementById('dicas').innerHTML = data;
             })
             .catch(error => console.error('Erro ao carregar as dicas:', error));
+
+        // Carregar dinamicamente o conteúdo do ficheiro 'frases.html'
+        fetch('frases.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('frases').innerHTML = data;
+            })
+            .catch(error => console.error('Erro ao carregar as frases úteis:', error));
 
         // Função para obter imagens da API Pexels
         async function getTokyoImages() {
