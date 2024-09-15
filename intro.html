@@ -3,128 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo a Tóquio</title>
+    <title>Tokyo 2025</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&family=Orbitron:wght@500&display=swap" rel="stylesheet">
     <style>
-        /* Estilos básicos e gerais */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #1f1c2c, #928DAB);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 1.5s ease;
-            padding: 10px;
-            box-sizing: border-box;
-        }
+    h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+        letter-spacing: 2px;
+        opacity: 0; /* Inicialmente invisível */
+        transform: translateY(20px); /* Movido para baixo */
+        animation: fadeUpLetters 1.5s forwards ease-out; /* Animação que o trará para cima */
+    }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+    @keyframes fadeUpLetters {
+        0% {
+            opacity: 0;
+            transform: translateY(20px); /* Posição inicial */
         }
+        100% {
+            opacity: 1;
+            transform: translateY(0); /* Posição final */
+        }
+    }
 
-        /* Tipografia para dispositivos móveis */
+    h1 span {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUpLetters 0.5s forwards ease-out;
+    }
+
+    /* Tipografia para dispositivos móveis */
+    h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+        letter-spacing: 2px;
+    }
+
+    p {
+        font-size: 1rem;
+        max-width: 800px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+    }
+
+    .info-box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+        width: 100%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .info-box:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Ajustes na galeria para dispositivos móveis */
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+
+    .gallery img {
+        width: 100%;
+        max-width: 200px;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .gallery img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Footer */
+    footer {
+        margin-top: 30px;
+        text-align: center;
+        color: #ddd;
+        font-size: 0.9rem;
+    }
+
+    footer p {
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    /* Estilos responsivos para dispositivos móveis */
+    @media (max-width: 768px) {
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
-            letter-spacing: 2px;
+            font-size: 2rem;
         }
 
         p {
-            font-size: 1rem;
-            max-width: 800px;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .info-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            width: 100%;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .info-box:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Ajustes na galeria para dispositivos móveis */
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
+            font-size: 0.9rem;
+            max-width: 100%;
         }
 
         .gallery img {
-            width: 100%;
-            max-width: 200px;
-            border-radius: 10px;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            max-width: 150px;
         }
 
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+        .info-box {
+            padding: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.8rem;
         }
 
-        /* Footer */
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #ddd;
-            font-size: 0.9rem;
+        p {
+            font-size: 0.85rem;
         }
 
-        footer p {
-            font-size: 1rem;
-            font-weight: 300;
+        .gallery img {
+            max-width: 120px;
         }
-
-        /* Estilos responsivos para dispositivos móveis */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            p {
-                font-size: 0.9rem;
-                max-width: 100%;
-            }
-
-            .gallery img {
-                max-width: 150px;
-            }
-
-            .info-box {
-                padding: 15px;
-                box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            p {
-                font-size: 0.85rem;
-            }
-
-            .gallery img {
-                max-width: 120px;
-            }
-        }
+    }
     </style>
 </head>
 <body>
@@ -134,7 +143,7 @@
 
     <!-- Conteúdo Principal -->
     <div class="container text-center">
-        <h1>Bem-vindo a Tóquio</h1>
+        <h1 id="mainTitle">Bem-vindo a Tóquio</h1>
         <p>Tóquio é a capital do Japão e uma das cidades mais futuristas do mundo. Misturando tradições antigas e avanços tecnológicos, a cidade oferece uma experiência única para quem a visita. Desde os templos históricos aos arranha-céus de alta tecnologia, Tóquio está cheia de contrastes e surpresas em cada esquina.</p>
 
         <!-- Galeria de Imagens Dinâmicas -->
@@ -220,6 +229,19 @@
 
         // Carregar as imagens ao carregar a página
         document.addEventListener('DOMContentLoaded', getTokyoImages);
+
+        // Adicione este script no final do body ou dentro de um evento DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.getElementById('mainTitle');
+            const text = title.textContent;
+            title.textContent = '';
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text[i];
+                span.style.animationDelay = `${i * 0.1}s`;
+                title.appendChild(span);
+            }
+        });
     </script>
 
     <!-- Bootstrap JS -->
