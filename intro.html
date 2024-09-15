@@ -54,46 +54,55 @@
     }
 
     .info-section {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
         margin-top: 30px;
     }
 
-    .info-box {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    .info-tab {
+        display: none;
+    }
+
+    .info-tab.active {
+        display: block;
+    }
+
+    .tab-buttons {
+        display: flex;
+        justify-content: space-around;
         margin-bottom: 20px;
-        width: calc(33.33% - 20px);
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
-    .info-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    .tab-button {
+        background: none;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #333;
+        cursor: pointer;
+        transition: color 0.3s ease;
     }
 
-    .info-box h3 {
+    .tab-button:hover,
+    .tab-button.active {
+        color: #4ecdc4;
+    }
+
+    .info-content h3 {
         color: #4ecdc4;
         margin-bottom: 15px;
         font-size: 1.2rem;
     }
 
-    .info-box ul {
+    .info-content ul {
         padding-left: 20px;
         margin-bottom: 0;
     }
 
-    .info-box li {
+    .info-content li {
         margin-bottom: 10px;
-    }
-
-    @media (max-width: 768px) {
-        .info-box {
-            width: 100%;
-        }
     }
 
     /* Ajustes na galeria para dispositivos móveis */
@@ -166,11 +175,6 @@
         .gallery img {
             max-width: 150px;
         }
-
-        .info-box {
-            padding: 15px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-        }
     }
 
     @media (max-width: 480px) {
@@ -207,19 +211,22 @@
 
         <!-- Seção de Informações Úteis (carregada dinamicamente) -->
         <div class="info-section">
-            <div class="info-box" id="informacoes-uteis">
-                <h3><i class="fas fa-info-circle"></i> Informações Úteis</h3>
-                <!-- O conteúdo será carregado dinamicamente -->
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('informacoes-uteis')">
+                    <i class="fas fa-info-circle"></i> Informações Úteis
+                </button>
+                <button class="tab-button" onclick="showTab('dicas')">
+                    <i class="fas fa-lightbulb"></i> Dicas de Viagem
+                </button>
+                <button class="tab-button" onclick="showTab('frases')">
+                    <i class="fas fa-comment"></i> Frases Úteis
+                </button>
             </div>
 
-            <div class="info-box" id="dicas">
-                <h3><i class="fas fa-lightbulb"></i> Dicas de Viagem</h3>
-                <!-- O conteúdo será carregado dinamicamente -->
-            </div>
-
-            <div class="info-box" id="frases">
-                <h3><i class="fas fa-comment"></i> Frases Úteis</h3>
-                <!-- O conteúdo será carregado dinamicamente -->
+            <div class="info-content">
+                <div id="informacoes-uteis" class="info-tab active"></div>
+                <div id="dicas" class="info-tab"></div>
+                <div id="frases" class="info-tab"></div>
             </div>
         </div>
     </div>
@@ -238,29 +245,15 @@
                 document.getElementById('navbar-placeholder').innerHTML = data;
             });
 
-        // Carregar dinamicamente o conteúdo do ficheiro 'informacoes uteis.html'
-        fetch('informacoes%20uteis.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('informacoes-uteis').innerHTML += data;
-            })
-            .catch(error => console.error('Erro ao carregar as informações úteis:', error));
-
-        // Carregar dinamicamente o conteúdo do ficheiro 'dicas.html'
-        fetch('dicas.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('dicas').innerHTML += data;
-            })
-            .catch(error => console.error('Erro ao carregar as dicas:', error));
-
-        // Carregar dinamicamente o conteúdo do ficheiro 'frases.html'
-        fetch('frases.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('frases').innerHTML += data;
-            })
-            .catch(error => console.error('Erro ao carregar as frases úteis:', error));
+        // Carregar dinamicamente o conteúdo dos ficheiros
+        ['informacoes-uteis', 'dicas', 'frases'].forEach(id => {
+            fetch(`${id}.html`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(id).innerHTML = data;
+                })
+                .catch(error => console.error(`Erro ao carregar ${id}:`, error));
+        });
 
         // Função para obter imagens da API Pexels
         async function getTokyoImages() {
@@ -320,6 +313,21 @@
                 title.appendChild(span);
             }
         });
+
+        function showTab(tabId) {
+            // Esconde todas as tabs
+            document.querySelectorAll('.info-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Mostra a tab selecionada
+            document.getElementById(tabId).classList.add('active');
+
+            // Atualiza os botões
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
     </script>
 
     <!-- Bootstrap JS -->
