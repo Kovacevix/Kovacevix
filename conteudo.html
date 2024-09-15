@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conteúdo - Viagem a Tóquio</title>
+    <title>Entrada - Viagem a Tóquio</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -12,25 +12,8 @@
     <div id="navbar-placeholder"></div>
 
     <div class="container mt-4">
-        <h1>Adicionar Planos</h1>
-        <form id="planForm">
-            <div class="form-group">
-                <label for="day">Dia:</label>
-                <input type="date" id="day" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="activity">Atividade:</label>
-                <input type="text" id="activity" class="form-control" placeholder="Ex. Visitar Templo Senso-ji" required>
-            </div>
-            <div class="form-group">
-                <label for="time">Hora:</label>
-                <input type="time" id="time" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Adicionar Planeamento</button>
-        </form>
-
-        <h2 class="mt-5">Planeamentos para os dias</h2>
-        <ul id="plansList" class="list-group"></ul>
+        <h1>Bem-vindo à Viagem a Tóquio</h1>
+        <p>Tóquio, a vibrante capital do Japão, combina modernidade e tradição de uma forma única. Desde os arranha-céus futuristas de Shinjuku até aos templos históricos como o Senso-ji, esta metrópole oferece uma diversidade cultural impressionante. A cidade é também conhecida pela sua gastronomia, parques serenos e bairros cheios de vida.</p>
     </div>
 
     <!-- Inclusão do JavaScript para o menu de navegação -->
@@ -41,44 +24,6 @@
             .then(data => {
                 document.getElementById('navbar-placeholder').innerHTML = data;
             });
-    </script>
-
-    <script>
-        let plans = JSON.parse(localStorage.getItem('plans')) || [];
-
-        document.getElementById('planForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            let day = document.getElementById('day').value;
-            let activity = document.getElementById('activity').value;
-            let time = document.getElementById('time').value;
-
-            plans.push({ day, activity, time });
-            localStorage.setItem('plans', JSON.stringify(plans));
-            displayPlans();
-            this.reset();
-        });
-
-        function displayPlans() {
-            let plansList = document.getElementById('plansList');
-            plansList.innerHTML = '';
-
-            plans.forEach((plan, index) => {
-                let li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `<strong>${plan.day}</strong>: ${plan.activity} às ${plan.time} 
-                    <button class="btn btn-danger btn-sm float-right" onclick="deletePlan(${index})">Eliminar</button>`;
-                plansList.appendChild(li);
-            });
-        }
-
-        function deletePlan(index) {
-            plans.splice(index, 1);
-            localStorage.setItem('plans', JSON.stringify(plans));
-            displayPlans();
-        }
-
-        document.addEventListener('DOMContentLoaded', displayPlans);
     </script>
 
     <!-- Bootstrap JS -->
