@@ -98,6 +98,11 @@
             <!-- O conteúdo será carregado dinamicamente aqui -->
         </div>
 
+        <!-- Nova Seção de Dicas (carregada dinamicamente) -->
+        <div class="info-box" id="dicas">
+            <!-- O conteúdo será carregado dinamicamente aqui -->
+        </div>
+
         <!-- Galeria de Imagens Dinâmicas -->
         <div class="gallery" id="gallery"></div>
     </div>
@@ -123,6 +128,14 @@
                 document.getElementById('informacoes-uteis').innerHTML = data;
             })
             .catch(error => console.error('Erro ao carregar as informações úteis:', error));
+
+        // Carregar dinamicamente o conteúdo do ficheiro 'dicas.html'
+        fetch('dicas.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('dicas').innerHTML = data;
+            })
+            .catch(error => console.error('Erro ao carregar as dicas:', error));
 
         // Função para obter imagens da API Pexels
         async function getTokyoImages() {
