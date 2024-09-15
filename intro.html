@@ -52,17 +52,6 @@
             transform: translateY(-10px);
         }
 
-        .info-box h2, .info-box h3 {
-            color: #f1c40f;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .info-box p {
-            color: #ccc;
-            font-size: 1rem;
-        }
-
         .gallery {
             display: flex;
             justify-content: center;
@@ -104,21 +93,9 @@
         <h1>Bem-vindo a Tóquio</h1>
         <p>Tóquio é a capital do Japão e uma das cidades mais futuristas do mundo. Misturando tradições antigas e avanços tecnológicos, a cidade oferece uma experiência única para quem a visita. Desde os templos históricos aos arranha-céus de alta tecnologia, Tóquio está cheia de contrastes e surpresas em cada esquina.</p>
 
-        <!-- Seção de Informações Úteis -->
-        <div class="info-box">
-            <h2>Informações Úteis</h2>
-            <p><strong>Moeda:</strong> Iene Japonês (JPY)</p>
-            <p><strong>Idioma:</strong> Japonês (a maioria dos sinais turísticos tem traduções em inglês)</p>
-            <p><strong>Clima:</strong> Verões quentes e invernos frios. Primavera e outono são as melhores épocas para visitar.</p>
-            <p><strong>Transporte:</strong> O sistema de transportes de Tóquio é altamente eficiente, com a rede de metro e comboios como principal meio de transporte.</p>
-        </div>
-
-        <!-- Nova Seção de Dados sobre o Japão e Tóquio -->
-        <div class="info-box">
-            <h3>População do Japão e Tóquio</h3>
-            <p><strong>Japão:</strong> Aproximadamente 125.8 milhões de habitantes (2023)</p>
-            <p><strong>Tóquio:</strong> Cerca de 14 milhões de habitantes na cidade de Tóquio. A área metropolitana, conhecida como a Grande Tóquio, tem uma população de cerca de 37 milhões, sendo a maior área metropolitana do mundo.</p>
-            <p><strong>Densidade Populacional:</strong> A cidade de Tóquio tem uma densidade de 6.168 habitantes por km², enquanto a área metropolitana é altamente urbanizada e densamente povoada.</p>
+        <!-- Seção de Informações Úteis (carregada dinamicamente) -->
+        <div class="info-box" id="informacoes-uteis">
+            <!-- O conteúdo será carregado dinamicamente aqui -->
         </div>
 
         <!-- Galeria de Imagens Dinâmicas -->
@@ -138,6 +115,14 @@
             .then(data => {
                 document.getElementById('navbar-placeholder').innerHTML = data;
             });
+
+        // Carregar dinamicamente o conteúdo do ficheiro 'informacoes uteis.html'
+        fetch('informacoes%20uteis.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('informacoes-uteis').innerHTML = data;
+            })
+            .catch(error => console.error('Erro ao carregar as informações úteis:', error));
 
         // Função para obter imagens da API Pexels
         async function getTokyoImages() {
