@@ -5,57 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bem-vindo a Tóquio</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&family=Orbitron:wght@500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #928DAB);
             color: #fff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 1.5s ease;
         }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         h1 {
-            font-size: 3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+            letter-spacing: 3px;
         }
+
         p {
             font-size: 1.2rem;
             max-width: 800px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            line-height: 1.8;
         }
+
         .info-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+            transition: transform 0.3s ease-in-out;
         }
+
+        .info-box:hover {
+            transform: translateY(-10px);
+        }
+
         .info-box h2 {
-            color: #f39c12;
-            font-size: 2rem;
+            color: #f1c40f;
+            font-size: 2.5rem;
             margin-bottom: 15px;
         }
+
         .info-box p {
             color: #ccc;
+            font-size: 1rem;
         }
+
         .gallery {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
+            margin-bottom: 40px;
         }
+
         .gallery img {
-            width: 200px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 250px;
+            border-radius: 15px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
         footer {
             margin-top: 50px;
             text-align: center;
-            color: #ccc;
+            color: #ddd;
+            font-size: 1rem;
+        }
+
+        footer p {
+            font-size: 1.2rem;
+            font-weight: 300;
         }
     </style>
 </head>
@@ -80,9 +115,9 @@
 
         <!-- Galeria de Imagens -->
         <div class="gallery">
-            <img src="https://source.unsplash.com/200x200/?tokyo" alt="Tóquio">
-            <img src="https://source.unsplash.com/200x200/?japan" alt="Japão">
-            <img src="https://source.unsplash.com/200x200/?shinjuku" alt="Shinjuku">
+            <img src="https://source.unsplash.com/300x300/?tokyo" alt="Tóquio">
+            <img src="https://source.unsplash.com/300x300/?japan" alt="Japão">
+            <img src="https://source.unsplash.com/300x300/?shinjuku" alt="Shinjuku">
         </div>
     </div>
 
