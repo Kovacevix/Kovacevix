@@ -6,6 +6,7 @@
     <title>Tokyo 2025</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
     h1 {
         font-family: 'Orbitron', sans-serif;
@@ -52,18 +53,47 @@
         line-height: 1.8;
     }
 
+    .info-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
     .info-box {
         background: rgba(255, 255, 255, 0.9);
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
-        width: 100%;
-        transition: transform 0.3s ease-in-out;
+        width: calc(33.33% - 20px);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
     .info-box:hover {
         transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-box h3 {
+        color: #4ecdc4;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+
+    .info-box ul {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+
+    .info-box li {
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .info-box {
+            width: 100%;
+        }
     }
 
     /* Ajustes na galeria para dispositivos móveis */
@@ -176,13 +206,22 @@
         </div>
 
         <!-- Seção de Informações Úteis (carregada dinamicamente) -->
-        <div class="info-box" id="informacoes-uteis"></div>
+        <div class="info-section">
+            <div class="info-box" id="informacoes-uteis">
+                <h3><i class="fas fa-info-circle"></i> Informações Úteis</h3>
+                <!-- O conteúdo será carregado dinamicamente -->
+            </div>
 
-        <!-- Seção de Dicas (carregada dinamicamente) -->
-        <div class="info-box" id="dicas"></div>
+            <div class="info-box" id="dicas">
+                <h3><i class="fas fa-lightbulb"></i> Dicas de Viagem</h3>
+                <!-- O conteúdo será carregado dinamicamente -->
+            </div>
 
-        <!-- Seção de Frases (carregada dinamicamente) -->
-        <div class="info-box" id="frases"></div>
+            <div class="info-box" id="frases">
+                <h3><i class="fas fa-comment"></i> Frases Úteis</h3>
+                <!-- O conteúdo será carregado dinamicamente -->
+            </div>
+        </div>
     </div>
 
     <!-- Rodapé -->
@@ -203,7 +242,7 @@
         fetch('informacoes%20uteis.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('informacoes-uteis').innerHTML = data;
+                document.getElementById('informacoes-uteis').innerHTML += data;
             })
             .catch(error => console.error('Erro ao carregar as informações úteis:', error));
 
@@ -211,7 +250,7 @@
         fetch('dicas.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('dicas').innerHTML = data;
+                document.getElementById('dicas').innerHTML += data;
             })
             .catch(error => console.error('Erro ao carregar as dicas:', error));
 
@@ -219,7 +258,7 @@
         fetch('frases.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('frases').innerHTML = data;
+                document.getElementById('frases').innerHTML += data;
             })
             .catch(error => console.error('Erro ao carregar as frases úteis:', error));
 
