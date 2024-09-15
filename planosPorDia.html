@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada - Viagem a Tóquio</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .plans-container {
+            margin-top: 20px;
+        }
+        .day-plans {
+            margin-bottom: 30px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .day-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .plan {
+            margin-left: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Planeamentos por Dia</h1>
+        <div class="plans-container" id="plans-container">
+            <!-- Planos agrupados por dia serão inseridos aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar planos salvos no LocalStorage ou gerar alguns exemplos
+        function loadPlans() {
+            // Exemplo de planos (podes usar LocalStorage para guardar os dados no futuro)
+            const plans = [
+                { day: '2024-09-25', activity: 'Visitar Templo Senso-ji', time: '10:00' },
+                { day: '2024-09-25', activity: 'Almoço em restaurante local', time: '13:00' },
+                { day: '2024-09-26', activity: 'Tokyo Skytree', time: '09:00' },
+                { day: '2024-09-26', activity: 'Passeio em Shibuya', time: '15:00' },
+                { day: '2024-09-27', activity: 'Visitar Odaiba', time: '11:00' }
+            ];
+
+            return plans;
+        }
+
+        // Função para agrupar os planos por dia
+        function groupPlansByDay(plans) {
+            const groupedPlans = {};
+
+            plans.forEach(plan => {
+                if (!groupedPlans[plan.day]) {
+                    groupedPlans[plan.day] = [];
+                }
+                groupedPlans[plan.day].push(plan);
+            });
+
+            return groupedPlans;
+        }
+
+        // Função para exibir os planos agrupados
+        function displayGroupedPlans() {
+            const plansContainer = document.getElementById('plans-container');
+            const plans = loadPlans();
+            const groupedPlans = groupPlansByDay(plans);
+
+            Object.keys(groupedPlans).forEach(day => {
+                const dayPlansDiv = document.createElement('div');
+                dayPlansDiv.classList.add('day-plans');
+
+                const dayTitle = document.createElement('h3');
+                dayTitle.classList.add('day-title');
+                dayTitle.innerText = `Planos para ${day}`;
+
+                dayPlansDiv.appendChild(dayTitle);
+
+                groupedPlans[day].forEach(plan => {
+                    const planDiv = document.createElement('div');
+                    planDiv.classList.add('plan');
+                    planDiv.innerText = `${plan.time} - ${plan.activity}`;
+                    dayPlansDiv.appendChild(planDiv);
+                });
+
+                plansContainer.appendChild(dayPlansDiv);
+            });
+        }
+
+        // Carregar e exibir os planos ao carregar a página
+        document.addEventListener('DOMContentLoaded', displayGroupedPlans);
+    </script>
+
+</body>
+</html>
