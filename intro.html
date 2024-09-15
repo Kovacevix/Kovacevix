@@ -53,59 +53,77 @@
         line-height: 1.8;
     }
 
+    .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 30px;
+    }
+
+    .gallery-container {
+        width: 60%;
+        margin-right: 20px;
+    }
+
     .info-section {
+        width: 40%;
         background: rgba(255, 255, 255, 0.9);
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         padding: 20px;
-        margin-top: 30px;
+    }
+
+    .info-tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 15px;
     }
 
     .info-tab {
-        display: none;
-    }
-
-    .info-tab.active {
-        display: block;
-    }
-
-    .tab-buttons {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 20px;
-    }
-
-    .tab-button {
         background: none;
         border: none;
-        padding: 10px 20px;
-        font-size: 1rem;
+        padding: 5px 10px;
+        font-size: 0.9rem;
         color: #333;
         cursor: pointer;
         transition: color 0.3s ease;
     }
 
-    .tab-button:hover,
-    .tab-button.active {
+    .info-tab:hover,
+    .info-tab.active {
         color: #4ecdc4;
+        border-bottom: 2px solid #4ecdc4;
     }
 
-    .info-content h3 {
-        color: #4ecdc4;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
+    .info-content {
+        max-height: 300px;
+        overflow-y: auto;
     }
 
-    .info-content ul {
+    .info-panel {
+        display: none;
+    }
+
+    .info-panel.active {
+        display: block;
+    }
+
+    .info-panel h3 {
+        color: #4ecdc4;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .info-panel ul {
         padding-left: 20px;
         margin-bottom: 0;
     }
 
-    .info-content li {
-        margin-bottom: 10px;
+    .info-panel li {
+        margin-bottom: 8px;
+        font-size: 0.9rem;
     }
 
-    /* Ajustes na galeria para dispositivos móveis */
     .gallery-container {
         position: relative;
         width: 100%;
@@ -175,6 +193,15 @@
         .gallery img {
             max-width: 150px;
         }
+
+        .content-wrapper {
+            flex-direction: column;
+        }
+        .gallery-container, .info-section {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
     }
 
     @media (max-width: 480px) {
@@ -202,31 +229,30 @@
         <h1 id="mainTitle">Tokyo 2025</h1>
         <p>Tóquio é a capital do Japão e uma das cidades mais futuristas do mundo. Misturando tradições antigas e avanços tecnológicos, a cidade oferece uma experiência única para quem a visita. Desde os templos históricos aos arranha-céus de alta tecnologia, Tóquio está cheia de contrastes e surpresas em cada esquina.</p>
 
-        <!-- Galeria de Imagens Dinâmicas -->
-        <div class="gallery-container">
-            <div class="gallery" id="gallery"></div>
-            <a href="#" class="gallery-nav prev" onclick="moveGallery(-1); return false;">&lt;</a>
-            <a href="#" class="gallery-nav next" onclick="moveGallery(1); return false;">&gt;</a>
-        </div>
-
-        <!-- Seção de Informações Úteis (carregada dinamicamente) -->
-        <div class="info-section">
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="showTab('informacoes-uteis')">
-                    <i class="fas fa-info-circle"></i> Informações Úteis
-                </button>
-                <button class="tab-button" onclick="showTab('dicas')">
-                    <i class="fas fa-lightbulb"></i> Dicas de Viagem
-                </button>
-                <button class="tab-button" onclick="showTab('frases')">
-                    <i class="fas fa-comment"></i> Frases Úteis
-                </button>
+        <div class="content-wrapper">
+            <div class="gallery-container">
+                <div class="gallery" id="gallery"></div>
+                <a href="#" class="gallery-nav prev" onclick="moveGallery(-1); return false;">&lt;</a>
+                <a href="#" class="gallery-nav next" onclick="moveGallery(1); return false;">&gt;</a>
             </div>
 
-            <div class="info-content">
-                <div id="informacoes-uteis" class="info-tab active"></div>
-                <div id="dicas" class="info-tab"></div>
-                <div id="frases" class="info-tab"></div>
+            <div class="info-section">
+                <div class="info-tabs">
+                    <button class="info-tab active" onclick="showInfoPanel('informacoes-uteis')">
+                        <i class="fas fa-info-circle"></i> Info
+                    </button>
+                    <button class="info-tab" onclick="showInfoPanel('dicas')">
+                        <i class="fas fa-lightbulb"></i> Dicas
+                    </button>
+                    <button class="info-tab" onclick="showInfoPanel('frases')">
+                        <i class="fas fa-comment"></i> Frases
+                    </button>
+                </div>
+                <div class="info-content">
+                    <div id="informacoes-uteis" class="info-panel active"></div>
+                    <div id="dicas" class="info-panel"></div>
+                    <div id="frases" class="info-panel"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -314,17 +340,14 @@
             }
         });
 
-        function showTab(tabId) {
-            // Esconde todas as tabs
+        function showInfoPanel(panelId) {
+            document.querySelectorAll('.info-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.getElementById(panelId).classList.add('active');
+
             document.querySelectorAll('.info-tab').forEach(tab => {
                 tab.classList.remove('active');
-            });
-            // Mostra a tab selecionada
-            document.getElementById(tabId).classList.add('active');
-
-            // Atualiza os botões
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
             });
             event.currentTarget.classList.add('active');
         }
