@@ -7,6 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&family=Orbitron:wght@500&display=swap" rel="stylesheet">
     <style>
+        /* Estilos básicos e gerais */
         body {
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #1f1c2c, #928DAB);
@@ -17,6 +18,8 @@
             justify-content: center;
             align-items: center;
             animation: fadeIn 1.5s ease;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         @keyframes fadeIn {
@@ -24,16 +27,17 @@
             100% { opacity: 1; }
         }
 
+        /* Tipografia para dispositivos móveis */
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             max-width: 800px;
             margin-bottom: 20px;
             line-height: 1.8;
@@ -41,45 +45,85 @@
 
         .info-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            width: 100%;
             transition: transform 0.3s ease-in-out;
         }
 
         .info-box:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
         }
 
+        /* Ajustes na galeria para dispositivos móveis */
         .gallery {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
+            gap: 10px;
+            margin-bottom: 30px;
         }
 
         .gallery img {
-            width: 250px;
-            border-radius: 15px;
+            width: 100%;
+            max-width: 200px;
+            border-radius: 10px;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         .gallery img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
         }
 
+        /* Footer */
         footer {
-            margin-top: 50px;
+            margin-top: 30px;
             text-align: center;
             color: #ddd;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         footer p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 300;
+        }
+
+        /* Estilos responsivos para dispositivos móveis */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                max-width: 100%;
+            }
+
+            .gallery img {
+                max-width: 150px;
+            }
+
+            .info-box {
+                padding: 15px;
+                box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+
+            .gallery img {
+                max-width: 120px;
+            }
         }
     </style>
 </head>
@@ -93,23 +137,17 @@
         <h1>Bem-vindo a Tóquio</h1>
         <p>Tóquio é a capital do Japão e uma das cidades mais futuristas do mundo. Misturando tradições antigas e avanços tecnológicos, a cidade oferece uma experiência única para quem a visita. Desde os templos históricos aos arranha-céus de alta tecnologia, Tóquio está cheia de contrastes e surpresas em cada esquina.</p>
 
-        <!-- Galeria de Imagens Dinâmicas (agora aparece após a frase inicial) -->
+        <!-- Galeria de Imagens Dinâmicas -->
         <div class="gallery" id="gallery"></div>
 
         <!-- Seção de Informações Úteis (carregada dinamicamente) -->
-        <div class="info-box" id="informacoes-uteis">
-            <!-- O conteúdo será carregado dinamicamente aqui -->
-        </div>
+        <div class="info-box" id="informacoes-uteis"></div>
 
         <!-- Seção de Dicas (carregada dinamicamente) -->
-        <div class="info-box" id="dicas">
-            <!-- O conteúdo será carregado dinamicamente aqui -->
-        </div>
+        <div class="info-box" id="dicas"></div>
 
         <!-- Seção de Frases (carregada dinamicamente) -->
-        <div class="info-box" id="frases">
-            <!-- O conteúdo será carregado dinamicamente aqui -->
-        </div>
+        <div class="info-box" id="frases"></div>
     </div>
 
     <!-- Rodapé -->
@@ -185,8 +223,3 @@
     </script>
 
     <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
