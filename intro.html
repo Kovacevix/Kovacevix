@@ -53,7 +53,7 @@
     }
 
     .info-box {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.9);
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
@@ -71,7 +71,8 @@
         position: relative;
         width: 100%;
         max-width: 800px;
-        margin: 0 auto;
+        height: 400px; /* Altura fixa para o carrossel */
+        margin: 0 auto 30px; /* Adicionado margem inferior */
         overflow: hidden;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -80,12 +81,14 @@
     .gallery {
         display: flex;
         transition: transform 0.5s ease-in-out;
+        height: 100%;
     }
 
     .gallery img {
         width: 100%;
-        height: auto;
+        height: 100%;
         object-fit: cover;
+        flex-shrink: 0;
     }
 
     .gallery-nav {
@@ -240,7 +243,7 @@
 
                 data.photos.forEach(photo => {
                     const imgElement = document.createElement('img');
-                    imgElement.src = photo.src.medium;
+                    imgElement.src = photo.src.large; // Usando imagens maiores
                     imgElement.alt = photo.photographer;
                     galleryContainer.appendChild(imgElement);
                 });
