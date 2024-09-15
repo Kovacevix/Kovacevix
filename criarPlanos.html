@@ -20,7 +20,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
-            margin-top: 80px; /* Ajuste para dar espaço ao header fixo */
+            margin-top: 80px;
             margin-bottom: 50px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
@@ -77,7 +77,36 @@
             display: none;
             margin-top: 20px;
         }
-        
+
+        /* Estilos Responsivos */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .day-title {
+                font-size: 1.5rem;
+            }
+
+            .plan {
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .plan {
+                padding: 6px 10px;
+            }
+        }
+
         .navbar {
             background-color: rgba(255, 255, 255, 0.9) !important;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -97,9 +126,6 @@
             color: #45b7aa !important;
         }
 
-        .container {
-            margin-top: 80px;
-        }
     </style>
 </head>
 <body>
