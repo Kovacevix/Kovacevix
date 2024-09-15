@@ -5,65 +5,203 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Planos - Viagem a Tóquio</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            background-image: url('https://source.unsplash.com/1600x900/?tokyo,travel');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-control {
+            border: 2px solid #4ecdc4;
+            border-radius: 20px;
+            padding: 10px 15px;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(78,205,196,.25);
+        }
+        .btn-primary {
+            background-color: #4ecdc4;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+        }
+        .btn-primary:hover {
+            background-color: #45b7aa;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .list-group-item {
+            border-left: 4px solid #ff6b6b;
+            margin-bottom: 10px;
+            border-radius: 0 5px 5px 0;
+            transition: all 0.3s ease;
+        }
+        .list-group-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-sm {
+            border-radius: 15px;
+        }
+        .icon-input {
+            position: relative;
+        }
+        .icon-input i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4ecdc4;
+        }
+        .icon-input input {
+            padding-left: 35px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            margin-right: 5px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: white;
+        }
+        .tag-turismo { background-color: #4ecdc4; }
+        .tag-alimentacao { background-color: #ff6b6b; }
+        .tag-transporte { background-color: #45b7aa; }
+        .search-container {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-
-    <!-- Menu de navegação -->
-    <div id="navbar-placeholder"></div>
-
-    <div class="container mt-4">
-        <h1>Criar Planos</h1>
+    <div class="container">
+        <h1>Criar Planos para Tóquio</h1>
+        
         <form id="planForm">
-            <div class="form-group">
-                <label for="day">Dia:</label>
+            <div class="form-group icon-input">
+                <i class="far fa-calendar-alt"></i>
                 <input type="date" id="day" class="form-control" required>
             </div>
-            <div class="form-group">
-                <label for="activity">Atividade:</label>
-                <input type="text" id="activity" class="form-control" placeholder="Ex. Visitar Templo Senso-ji" required>
+            <div class="form-group icon-input">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="activity" class="form-control" placeholder="Atividade" required>
             </div>
-            <div class="form-group">
-                <label for="time">Hora:</label>
+            <div class="form-group icon-input">
+                <i class="far fa-clock"></i>
                 <input type="time" id="time" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Adicionar Planeamento</button>
+            <div class="form-group">
+                <select id="category" class="form-control">
+                    <option value="turismo">Turismo</option>
+                    <option value="alimentacao">Alimentação</option>
+                    <option value="transporte">Transporte</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Adicionar Plano</button>
         </form>
 
-        <h2 class="mt-5">Planeamentos para os dias</h2>
-        <ul id="plansList" class="list-group"></ul>
-    </div>
+        <div class="search-container mt-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar planos...">
+        </div>
 
-    <!-- Inclusão do JavaScript para o menu de navegação -->
-    <script>
-        // Carregar o menu de navegação de um ficheiro externo
-        fetch('navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-placeholder').innerHTML = data;
-            });
-    </script>
+        <h2 class="mt-4">Planos Atuais</h2>
+        <ul id="plansList" class="list-group mt-3"></ul>
+    </div>
 
     <script>
         let plans = JSON.parse(localStorage.getItem('plans')) || [];
 
-        document.getElementById('planForm').addEventListener('submit', function (e) {
+        function addPlan(e) {
             e.preventDefault();
-
             let day = document.getElementById('day').value;
             let activity = document.getElementById('activity').value;
             let time = document.getElementById('time').value;
+            let category = document.getElementById('category').value;
 
-            plans.push({ day, activity, time });
+            plans.push({ day, activity, time, category });
             localStorage.setItem('plans', JSON.stringify(plans));
             displayPlans();
-            this.reset();
-        });
+            e.target.reset();
+        }
 
-        function displayPlans() {
+        function displayPlans(filteredPlans = plans) {
             let plansList = document.getElementById('plansList');
             plansList.innerHTML = '';
 
-            plans.forEach((plan, index) => {
+            filteredPlans.forEach((plan, index) => {
                 let li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `<strong>${plan.day}</strong>: ${plan.activi
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    <span>
+                        <strong>${plan.day}</strong> - ${plan.activity} às ${plan.time}
+                        <span class="tag tag-${plan.category}">${plan.category}</span>
+                    </span>
+                    <div>
+                        <button class="btn btn-warning btn-sm mr-2" onclick="editPlan(${index})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deletePlan(${index})">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                `;
+                plansList.appendChild(li);
+            });
+        }
+
+        function editPlan(index) {
+            let plan = plans[index];
+            document.getElementById('day').value = plan.day;
+            document.getElementById('activity').value = plan.activity;
+            document.getElementById('time').value = plan.time;
+            document.getElementById('category').value = plan.category;
+            plans.splice(index, 1);
+            localStorage.setItem('plans', JSON.stringify(plans));
+            displayPlans();
+        }
+
+        function deletePlan(index) {
+            plans.splice(index, 1);
+            localStorage.setItem('plans', JSON.stringify(plans));
+            displayPlans();
+        }
+
+        function searchPlans() {
+            let searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            let filteredPlans = plans.filter(plan => 
+                plan.activity.toLowerCase().includes(searchTerm) ||
+                plan.day.includes(searchTerm) ||
+                plan.category.toLowerCase().includes(searchTerm)
+            );
+            displayPlans(filteredPlans);
+        }
+
+        document.getElementById('planForm').addEventListener('submit', addPlan);
+        document.getElementById('searchInput').addEventListener('input', searchPlans);
+
+        displayPlans();
+    </script>
+</body>
+</html>
