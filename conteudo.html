@@ -3,18 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrada - Viagem a Tóquio</title>
+    <title>Bem-vindo a Tóquio</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+        p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+        .info-box h2 {
+            color: #f39c12;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        .info-box p {
+            color: #ccc;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .gallery img {
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #ccc;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Menu de navegação -->
     <div id="navbar-placeholder"></div>
 
-    <div class="container mt-4">
-        <h1>Bem-vindo à Viagem a Tóquio</h1>
-        <p>Tóquio, a vibrante capital do Japão, combina modernidade e tradição de uma forma única. Desde os arranha-céus futuristas de Shinjuku até aos templos históricos como o Senso-ji, esta metrópole oferece uma diversidade cultural impressionante. A cidade é também conhecida pela sua gastronomia, parques serenos e bairros cheios de vida.</p>
+    <!-- Conteúdo Principal -->
+    <div class="container text-center">
+        <h1>Bem-vindo a Tóquio</h1>
+        <p>Tóquio é a capital do Japão e uma das cidades mais futuristas do mundo. Misturando tradições antigas e avanços tecnológicos, a cidade oferece uma experiência única para quem a visita. Desde os templos históricos aos arranha-céus de alta tecnologia, Tóquio está cheia de contrastes e surpresas em cada esquina.</p>
+
+        <!-- Seção de Informações Úteis -->
+        <div class="info-box">
+            <h2>Informações Úteis</h2>
+            <p><strong>Moeda:</strong> Iene Japonês (JPY)</p>
+            <p><strong>Idioma:</strong> Japonês (a maioria dos sinais turísticos tem traduções em inglês)</p>
+            <p><strong>Clima:</strong> Verões quentes e invernos frios. Primavera e outono são as melhores épocas para visitar.</p>
+            <p><strong>Transporte:</strong> O sistema de transportes de Tóquio é altamente eficiente, com a rede de metro e comboios como principal meio de transporte.</p>
+        </div>
+
+        <!-- Galeria de Imagens -->
+        <div class="gallery">
+            <img src="https://source.unsplash.com/200x200/?tokyo" alt="Tóquio">
+            <img src="https://source.unsplash.com/200x200/?japan" alt="Japão">
+            <img src="https://source.unsplash.com/200x200/?shinjuku" alt="Shinjuku">
+        </div>
     </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>Planeie a sua viagem a Tóquio e descubra o futuro, hoje.</p>
+    </footer>
 
     <!-- Inclusão do JavaScript para o menu de navegação -->
     <script>
